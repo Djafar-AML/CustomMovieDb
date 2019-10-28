@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -88,11 +89,19 @@ class MoviesPagedListAdapter(private val context : Context) : PagedListAdapter<M
     
     class MovieItemViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         fun bind(movie : Movie? , context : Context) {
+            
+            
             itemView.cv_movie_title.text = movie?.title
             itemView.cv_movie_release_date.text = movie?.releaseDate
             
             val moviePosterUrl = POSTER_BASE_URL + movie?.posterPath
             
+            // set anim for movie_poster
+            itemView.cv_iv_movie_poster.animation = AnimationUtils.loadAnimation(context , R.anim.fade_transition_animation)
+            // set anim for whole card view
+            itemView.card_view.animation = AnimationUtils.loadAnimation(context , R.anim.fade_transition_animation)
+            
+            itemView.movie_item_container
             Glide.with(itemView.context)
                 .load(moviePosterUrl)
                 .fallback(R.drawable.poster_placeholder)
